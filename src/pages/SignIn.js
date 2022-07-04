@@ -5,6 +5,7 @@ import {
   InputAdornment,
   Button,
   Typography,
+  CircularProgress,
 } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Send';
 import PasswordIcon from '@mui/icons-material/Password';
@@ -59,14 +60,18 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   const [error, setError] = React.useState(false);
+  const [loading, setLoading] = React.useState(null);
   const authUser = async (values) => {
     try {
+      setLoading(true);
       const user = await axios.post("https://whispering-tor-95561.herokuapp.com/api/auth", values);
       window.sessionStorage.setItem('Email', JSON.stringify(user.data));
       window.sessionStorage.setItem('token', user.data.Token);
+      setLoading(false);
       if (user.data) return navigate("/")
     } catch (ex) {
       setError(ex.response.data);
+      setLoading(false);
     }
   };
   //using formik
@@ -120,7 +125,7 @@ const SignIn = () => {
             onChange={formik.handleChange}
             value={formik.values.password}
           />
-          {error && <h6>{error}</h6>}
+          {!loading ? <h6>{error}</h6> : <CircularProgress color="success" sx={{position:'absolute'}} />}
           <Button
             variant="contained"
             sx={{ textTransform: 'none' }}
