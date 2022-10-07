@@ -35,6 +35,13 @@ align-items: center;
 align-content: center;
 margin-bottom: 0.2rem;
 `;
+const UserCalender = styled.input`
+font: inherit;
+height: 38px;
+border: 1px solid lightgray;
+border-radius: 4px;
+min-width: 45px;
+`;
 const TextField = styled(MuiTextField)`
 width:70%;
 `;
@@ -54,12 +61,18 @@ justify-content: space-between;
 margin-left: 2%;
 `;
 const Todo = () => {
+  let today = new Date();
+  let dd = String(today.getDate()).padStart(2, '0');
+  let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  let yyyy = today.getFullYear();
+  today = yyyy + '-' + mm + '-' + dd;
   const [userTodo, SetUserTodo] = React.useState('');
   const [listTodos, setListTodos] = React.useState([]);
   const [updateText, setUpdateText] = React.useState('');
   const [showSnack, setShowSnack] = React.useState(false);
   const [error, setError] = React.useState(false);
   const [text, setText] = React.useState('');
+  const [calender, setCalender] =  React.useState(today);
   //getting the current user Email
   const data = JSON.parse(window.sessionStorage.getItem("Email"));
   //getting all todos from the db
@@ -85,7 +98,7 @@ const Todo = () => {
   const addTodo = async (e) => {
     e.preventDefault();
     const value = {
-      "item": userTodo,
+      "item": calender+" "+userTodo,
       "Email": data.Email
     }
     try {
@@ -132,6 +145,10 @@ const Todo = () => {
     <Wrapper>
       <Form onSubmit={(e) => addTodo(e)}>
         <TodoInfo>
+        <UserCalender type="date" id="start" name="trip-start"
+       value={calender}
+       onChange={(e) => setCalender(e.target.value)}
+       />
           <TextField
             label="Todo..."
             id="fullWidth"
