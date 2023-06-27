@@ -79,7 +79,7 @@ const Todo = () => {
   React.useEffect(() => {
     const getAllTodos = async () => {
       try {
-        const allTodos = await axios.get('https://whispering-tor-95561.herokuapp.com/api/items', { timeout: 30000 });
+        const allTodos = await axios.get(`${process.env.REACT_API_URL}/api/items`, { timeout: 30000 });
         //get todos according to the user and displayed them;
         const currentUserTodos = await allTodos.data.filter((item) => item.Email === data.Email);
         if (currentUserTodos.length <= 0) {
@@ -102,7 +102,7 @@ const Todo = () => {
       "Email": data.Email
     }
     try {
-      const response = await axios.post('https://whispering-tor-95561.herokuapp.com/api/item', value, { timeout: 30000 });
+      const response = await axios.post(`${process.env.REACT_API_URL}/api/item`, value, { timeout: 30000 });
       setListTodos((prev) => [...prev, response.data]);
       SetUserTodo('');
       setShowSnack(true);
@@ -115,7 +115,7 @@ const Todo = () => {
   //deleting the todo from the db;
   const deleteTodo = async (id) => {
     try {
-      await axios.delete(`https://whispering-tor-95561.herokuapp.com/api/item/${id}`);
+      await axios.delete(`${process.env.REACT_API_URL}/api/item/${id}`);
       const newListItems = listTodos.filter((todo) => todo._id !== id);
       setListTodos(newListItems);
       setShowSnack(true);
@@ -129,7 +129,7 @@ const Todo = () => {
   const updateTodo = async (e, id) => {
     e.preventDefault();
     try {
-      await axios.put(`https://whispering-tor-95561.herokuapp.com/api/item/${id}`, { item: updateText });
+      await axios.put(`${process.env.REACT_API_URL}/api/item/${id}`, { item: updateText });
       setShowSnack(true);
       setText("Todo Updated Successfully.")
     } catch (err) {

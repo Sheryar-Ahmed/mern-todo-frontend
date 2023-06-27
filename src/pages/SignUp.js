@@ -63,7 +63,7 @@ const SignUp = () => {
   const RegisterUser = async (values) => {
     try {
       setLoading(true);
-      const user = await axios.post("https://whispering-tor-95561.herokuapp.com/api/users", values);
+      const user = await axios.post(`${process.env.REACT_API_URL}/api/users`, values);
       window.sessionStorage.setItem("Email",JSON.stringify(user.data))
       setShowSnack(true);
       setLoading(false);
