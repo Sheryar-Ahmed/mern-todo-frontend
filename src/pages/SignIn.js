@@ -12,6 +12,7 @@ import PasswordIcon from '@mui/icons-material/Password';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useNavigate } from "react-router-dom";
+import { url } from '../lib/backend';
 import axios from 'axios';
 
 const Wrapper = styled.div`
@@ -64,7 +65,9 @@ const SignIn = () => {
   const authUser = async (values) => {
     try {
       setLoading(true);
-      const user = await axios.post(`${process.env.REACT_API_URL}/api/auth`, values);
+      console.log("url", url);
+      const user = await axios.post(`${url}/api/users/login`, values);
+      console.log("user", user);
       window.sessionStorage.setItem('Email', JSON.stringify(user.data));
       window.sessionStorage.setItem('token', user.data.Token);
       setLoading(false);

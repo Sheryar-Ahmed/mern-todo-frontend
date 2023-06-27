@@ -14,6 +14,7 @@ import { useFormik } from 'formik';
 import { useNavigate } from "react-router-dom";
 import ALertMsg from '../components/AlertMsg';
 import axios from 'axios';
+import { url } from '../lib/backend';
 
 const Wrapper = styled.div`
 width:100%;
@@ -63,8 +64,8 @@ const SignUp = () => {
   const RegisterUser = async (values) => {
     try {
       setLoading(true);
-      const user = await axios.post(`${process.env.REACT_API_URL}/api/users`, values);
-      window.sessionStorage.setItem("Email",JSON.stringify(user.data))
+      const user = await axios.post(`${url}/api/users/register`, values);
+      window.sessionStorage.setItem("Email", JSON.stringify(user.data))
       setShowSnack(true);
       setLoading(false);
       if (user) return navigate('/signIn');
@@ -124,7 +125,7 @@ const SignUp = () => {
             onChange={formik.handleChange}
             value={formik.values.password}
           />
-          {!loading ? error && <h6>{error}</h6> : <CircularProgress color="success" sx={{position:'absolute'}} />}
+          {!loading ? error && <h6>{error}</h6> : <CircularProgress color="success" sx={{ position: 'absolute' }} />}
           <Button
             variant="contained"
             sx={{ textTransform: 'none' }}

@@ -1,0 +1,1 @@
+export const url = 'https://confused-pantyhose-elk.cyclic.app'
